@@ -45,7 +45,7 @@ expsurv.likelihood <- function(alpha, lambda, data) {
     return (lambda * 500000)
   }
   if (alpha < 0 | alpha >= 1)
-    return (abs((alpha) * 500000))
+    return (-1*abs((alpha) * 500000))
   ret <- 0
   for (i in 1:nrow(data)) {
     if (data[i, 2] == 1) {
