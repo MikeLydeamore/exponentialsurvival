@@ -14,7 +14,7 @@
 #' surv <- expsurv.simulate(alpha = 0.3, lambda = 1, N=1000, duration = 15)
 #' fit <- expsurv.fit(surv)
 
-expsurv.fit <- function(surv, x0 = c(0.5. 1), ...) {
+expsurv.fit <- function(surv, x0 = c(0.5, 1), ...) {
   #Times are in column 1, censoring in column 2.
   #Censoring: 0=alive, 1=dead.
   
