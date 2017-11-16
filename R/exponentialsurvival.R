@@ -12,7 +12,7 @@
 #' surv <- expsurv.simulate(alpha = 0.3, lambda = 1, N=1000, duration = 15)
 #' fit <- expsurv.fit(surv)
 
-expsurv.fit <- function(surv) {
+expsurv.fit <- function(surv, x0 = c(0.5. 1), ...) {
   #Times are in column 1, censoring in column 2.
   #Censoring: 0=alive, 1=dead.
   
@@ -21,7 +21,7 @@ expsurv.fit <- function(surv) {
     return (-1 * expsurv.likelihood(parameters[1], parameters[2], data))
   }
   
-  MLE <- stats::nlm(f = negativelikelihood, p = c(0.5, 1), data=surv, gradtol = 1e-10)
+  MLE <- stats::nlm(f = negativelikelihood, x0, data=surv, gradtol = 1e-10, ...)
   
   return (data.frame(alpha = MLE$estimate[1], lambda = MLE$estimate[2]))
 }
@@ -44,8 +44,9 @@ expsurv.likelihood <- function(alpha, lambda, data) {
   if (lambda < 0) {
     return (lambda * 500000)
   }
-  if (alpha < 0 | alpha >= 1)
-    return (-1*abs((alpha) * 500000))
+  if (alpha < 0 | alpha >= 1) {
+    return (-1*abs((alpha+1) * 500000))
+  }
   ret <- 0
   for (i in 1:nrow(data)) {
     if (data[i, 2] == 1) {
