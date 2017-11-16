@@ -4,6 +4,8 @@
 #' 
 #' This form of model allows for some proportion of individuals to experience zero risk (\eqn{\alpha}), and the remainder to experience constant hazard (\eqn{\lambda}).
 #' @param surv A matrix with the first column being event times (or censor time), and the second being whether the event was censored. 
+#' @param x0 Initial guess for nlm
+#' @param ... Other options passed through to nlm
 #' 
 #' Note: For censoring, 0=alive (censored), 1=dead
 #' @return Data frame with two elements: Zero risk proportion, \eqn{\alpha}, and estimated hazard, \eqn{\lambda}.
