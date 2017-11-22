@@ -4,10 +4,19 @@
 \alias{expsurv.fit}
 \title{Fit Parametric Exponential Mixture Model}
 \usage{
-expsurv.fit(surv)
+expsurv.fit(surv, x0 = c(0.5, 1), lower = c(1e-10, 1e-10),
+  upper = c(0.999, 250), ...)
 }
 \arguments{
-\item{surv}{A matrix with the first column being event times (or censor time), and the second being whether the event was censored. 
+\item{surv}{A matrix with the first column being event times (or censor time), and the second being whether the event was censored.}
+
+\item{x0}{Initial guess for optim}
+
+\item{lower}{Vector giving lower bounds for alpha and lambda. Defaults to near-zero (1e-10)}
+
+\item{upper}{Vector giving upper bounds for alpha and lambda. alpha = 1 tends to cause issues, so it is suggested to run slightly below this.}
+
+\item{...}{Other options passed through to optim
 
 Note: For censoring, 0=alive (censored), 1=dead}
 }

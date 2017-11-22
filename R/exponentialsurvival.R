@@ -4,8 +4,10 @@
 #' 
 #' This form of model allows for some proportion of individuals to experience zero risk (\eqn{\alpha}), and the remainder to experience constant hazard (\eqn{\lambda}).
 #' @param surv A matrix with the first column being event times (or censor time), and the second being whether the event was censored. 
-#' @param x0 Initial guess for nlm
-#' @param ... Other options passed through to nlm
+#' @param x0 Initial guess for optim
+#' @param lower Vector giving lower bounds for alpha and lambda. Defaults to near-zero (1e-10)
+#' @param upper Vector giving upper bounds for alpha and lambda. alpha = 1 tends to cause issues, so it is suggested to run slightly below this.
+#' @param ... Other options passed through to optim
 #' 
 #' Note: For censoring, 0=alive (censored), 1=dead
 #' @return Data frame with two elements: Zero risk proportion, \eqn{\alpha}, and estimated hazard, \eqn{\lambda}.
@@ -14,7 +16,7 @@
 #' surv <- expsurv.simulate(alpha = 0.3, lambda = 1, N=1000, duration = 15)
 #' fit <- expsurv.fit(surv)
 
-expsurv.fit <- function(surv, x0 = c(0.5, 1), lower = c(1e-10, 1e-10), upper = c(1, 250)) {
+expsurv.fit <- function(surv, x0 = c(0.5, 1), lower = c(1e-10, 1e-10), upper = c(0.999, 250), ...) {
   #Times are in column 1, censoring in column 2.
   #Censoring: 0=alive, 1=dead.
   
@@ -24,7 +26,7 @@ expsurv.fit <- function(surv, x0 = c(0.5, 1), lower = c(1e-10, 1e-10), upper = c
   }
   
   #MLE <- stats::nlm(f = negativelikelihood, x0, data=surv, gradtol = 1e-10, ...)
-  MLE <- optim(x0, fn = negativelikelihood, data = surv, method = "L-BFGS-B", lower = lower, upper = upper)
+  MLE <- optim(x0, fn = negativelikelihood, data = surv, method = "L-BFGS-B", lower = lower, upper = upper, ...)
   
   return (data.frame(alpha = MLE$par[1], lambda = MLE$par[2]))
 }
