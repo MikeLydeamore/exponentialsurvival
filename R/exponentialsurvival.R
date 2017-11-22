@@ -59,6 +59,9 @@ expsurv.likelihood <- function(alpha, lambda, data) {
       ret <- ret + log((alpha + ( (1-alpha) * exp(-lambda*data[i, 1]) )))
     }
   }
+  if (is.na(ret) | is.infinite(ret)) {
+    ret <- (alpha + lambda) *.Machine$integer.max)
+  }
   return (ret)
 }
 
