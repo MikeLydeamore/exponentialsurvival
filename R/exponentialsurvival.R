@@ -26,7 +26,7 @@ expsurv.fit <- function(surv, x0 = c(0.5, 1), lower = c(1e-10, 1e-10), upper = c
   #MLE <- stats::nlm(f = negativelikelihood, x0, data=surv, gradtol = 1e-10, ...)
   MLE <- optim(x0, negativelikelihood, method = "L-BFGS-B", lower = lower, upper = upper)
   
-  return (data.frame(alpha = MLE$estimate[1], lambda = MLE$estimate[2]))
+  return (data.frame(alpha = MLE$par[1], lambda = MLE$par[2]))
 }
 
 #' Likelihood for a Parametric Exponential Mixture Model
