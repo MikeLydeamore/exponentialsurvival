@@ -60,7 +60,7 @@ expsurv.likelihood <- function(alpha, lambda, data) {
     }
   }
   if (is.na(ret) | is.infinite(ret)) {
-    ret <- (alpha + lambda) *.Machine$integer.max)
+    ret <- (alpha + lambda) *.Machine$integer.max
   }
   return (ret)
 }
