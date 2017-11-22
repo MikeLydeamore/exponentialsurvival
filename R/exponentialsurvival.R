@@ -24,7 +24,7 @@ expsurv.fit <- function(surv, x0 = c(0.5, 1), lower = c(1e-10, 1e-10), upper = c
   }
   
   #MLE <- stats::nlm(f = negativelikelihood, x0, data=surv, gradtol = 1e-10, ...)
-  MLE <- optim(x0, negativelikelihood, method = "L-BFGS-B", lower = lower, upper = upper)
+  MLE <- optim(x0, fn = negativelikelihood, data = surv, method = "L-BFGS-B", lower = lower, upper = upper)
   
   return (data.frame(alpha = MLE$par[1], lambda = MLE$par[2]))
 }
